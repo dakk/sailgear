@@ -5,12 +5,10 @@
  */
 package org.sailgear.scenery;
 
-import com.jme3.scene.Node;
-
 /**
  *
  * @author dakk
  */
-public class Terrain extends Node {
+public class Terrain {
     
 }

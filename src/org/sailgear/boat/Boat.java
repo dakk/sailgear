@@ -1,5 +1,3 @@
-package sailboat;
-
 /*
  * The MIT License
  *
@@ -23,11 +21,14 @@ package sailboat;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package org.sailgear.boat;
+
+import com.jme3.scene.Node;
 
 /**
  *
  * @author dakk
  */
-public class SailBoat {
+public class Boat extends Node {
     
 }

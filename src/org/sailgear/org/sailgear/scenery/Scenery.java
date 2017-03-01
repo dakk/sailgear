@@ -20,48 +20,42 @@ import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
 import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.sailgear.GameState;
-import org.sailgear.Sailgear;
 
 /**
  *
  * @author dakk
  */
-public class Scenery extends Node {
-    private static final Logger logger = Logger.getLogger(Sailgear.class.getName());
+public class Scenery {
+    private Node sceneryNode;
     private DirectionalLight sun;
     private WaterFilter water;
-    private AssetManager assetManager;
-    private ViewPort viewPort;
-                
-    public Scenery (AssetManager assetManager, ViewPort viewPort) {
-        super ("SceneryNode");
-        this.viewPort = viewPort;
-        this.assetManager = assetManager;
+    
+    public Node getSceneNode () {
+        return sceneryNode;
     }
-
-    public void load (GameState gameState) {        
-        logger.log(Level.INFO, "Loading scenery");
+            
+    public Scenery (Node rootNode, AssetManager assetManager, ViewPort viewPort) {
+        sceneryNode = new Node ("Main Scene");
+        rootNode.attachChild (sceneryNode);
         
         /* Create the sun */
         sun = new DirectionalLight();
         sun.setDirection (new Vector3f (-4.9236743f, -1.27054665f, 5.896916f));
         sun.setColor (ColorRGBA.White.clone().multLocal(1f));
-        this.addLight (sun);
+        sceneryNode.addLight (sun);
         
         AmbientLight al = new AmbientLight();
         al.setColor (new ColorRGBA (0.1f, 0.1f, 0.1f, 1.0f));
-        this.addLight(al);
+        sceneryNode.addLight(al);
         
-        /* Create the sky */
+        
         Spatial sky = SkyFactory.createSky(assetManager, "Scenes/Beach/FullskiesSunset0068.dds", false);
         sky.setLocalScale(350);
-        this.attachChild(sky);
+        sceneryNode.attachChild(sky);
         
-        /* Create the water */
-        water = new WaterFilter(this, new Vector3f (-4.9236743f, -1.27054665f, 5.896916f));
+        
+        //Water Filter
+        water = new WaterFilter(rootNode, new Vector3f (-4.9236743f, -1.27054665f, 5.896916f));
         water.setWaterColor(new ColorRGBA().setAsSrgb(0.0078f, 0.3176f, 0.5f, 1.0f));
         water.setDeepWaterColor(new ColorRGBA().setAsSrgb(0.0039f, 0.00196f, 0.145f, 1.0f));
         water.setUnderWaterFogDistance(80);
@@ -80,7 +74,11 @@ public class Scenery extends Node {
         water.setWaterHeight(90f);
         
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
+        
         fpp.addFilter(water);
         viewPort.addProcessor(fpp);
+        
+        
     }
+    
 }

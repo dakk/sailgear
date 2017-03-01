@@ -63,7 +63,6 @@ import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import org.sailgear.scenery.Scenery;
 
 /**
@@ -71,35 +70,28 @@ import org.sailgear.scenery.Scenery;
  * @author dakk
  */
 public class Sailgear extends SimpleApplication {
-    private TerrainQuad terrain;
-    private Material matRock;
-    private Scenery scene;
-    private GameState gameState;
-    private static final Logger logger = Logger.getLogger(Sailgear.class.getName());
+    TerrainQuad terrain;
+    Material matRock;
+    Scenery scene;
     
     @Override
     public void simpleInitApp() {
         setDisplayFps(true);
         setDisplayStatView(false);
         
-        /* Create or load the gamestate */
-        gameState = new GameState ();
-        
-        /* Load the scenery */
-        scene = new Scenery (assetManager, viewPort);
-        scene.load (gameState);
-        rootNode.attachChild (scene);
 
-        /* */
         
-        /* Create the terrain */
+        scene = new Scenery (rootNode, assetManager, viewPort);
+        
         createTerrain();
         
-        /* Camera setup */
+        
         flyCam.setMoveSpeed(250);
         cam.setLocation(new Vector3f(-370.31592f, 182.04016f, 196.81192f));
         cam.setRotation(new Quaternion(0.015302252f, 0.9304095f, -0.039101653f, 0.3641086f));
         cam.setFrustumFar(4000);
+
+
     }
     
     
@@ -149,7 +141,7 @@ public class Sailgear extends SimpleApplication {
         terrain.setLocked(false); // unlock it so we can edit the height
 
         terrain.setShadowMode(ShadowMode.Receive);
-        scene.attachChild(terrain);
+        scene.getSceneNode().attachChild(terrain);
 
     }
     //This part is to emulate tides, slightly varrying the height of the water plane
