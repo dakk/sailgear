@@ -24,45 +24,10 @@
 package org.sailgear;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.audio.AudioNode;
-import com.jme3.audio.LowPassFilter;
-import com.jme3.effect.ParticleEmitter;
-import com.jme3.effect.ParticleMesh;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
-import com.jme3.material.RenderState.BlendMode;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.post.FilterPostProcessor;
-import com.jme3.post.filters.BloomFilter;
-import com.jme3.post.filters.DepthOfFieldFilter;
-import com.jme3.post.filters.FXAAFilter;
-import com.jme3.post.filters.LightScatteringFilter;
-import com.jme3.post.filters.TranslucentBucketFilter;
-import com.jme3.renderer.Camera;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.renderer.queue.RenderQueue.ShadowMode;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.terrain.geomipmap.TerrainQuad;
-import com.jme3.terrain.heightmap.AbstractHeightMap;
-import com.jme3.terrain.heightmap.ImageBasedHeightMap;
-import com.jme3.terrain.heightmap.RawHeightMap;
-import com.jme3.texture.Texture;
-import com.jme3.texture.Texture.WrapMode;
-import com.jme3.texture.Texture2D;
-import com.jme3.util.SkyFactory;
-import com.jme3.water.WaterFilter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 import org.sailgear.scenery.Scenery;
 
@@ -84,75 +49,21 @@ public class Sailgear extends SimpleApplication {
         
         /* Create or load the gamestate */
         gameState = new GameState ();
+        gameState.camera = cam;
         
         /* Load the scenery */
         scene = new Scenery (assetManager, viewPort);
         scene.load (gameState);
         rootNode.attachChild (scene);
 
-        /* */
-        
-        /* Create the terrain */
-        createTerrain();
         
         /* Camera setup */
-        flyCam.setMoveSpeed(250);
+        flyCam.setMoveSpeed(500);
         cam.setLocation(new Vector3f(-370.31592f, 182.04016f, 196.81192f));
         cam.setRotation(new Quaternion(0.015302252f, 0.9304095f, -0.039101653f, 0.3641086f));
-        cam.setFrustumFar(4000);
+        cam.setFrustumFar(40000);
     }
     
-    
-    private void createTerrain() {
-        matRock = new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
-        matRock.setBoolean("useTriPlanarMapping", false);
-        matRock.setBoolean("WardIso", true);
-        matRock.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
-        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
-        Texture grass = assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
-        grass.setWrap(WrapMode.Repeat);
-        matRock.setTexture("DiffuseMap", grass);
-        matRock.setFloat("DiffuseMap_0_scale", 64);
-        Texture dirt = assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
-        dirt.setWrap(WrapMode.Repeat);
-        matRock.setTexture("DiffuseMap_1", dirt);
-        matRock.setFloat("DiffuseMap_1_scale", 16);
-        Texture rock = assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
-        rock.setWrap(WrapMode.Repeat);
-        matRock.setTexture("DiffuseMap_2", rock);
-        matRock.setFloat("DiffuseMap_2_scale", 128);
-        Texture normalMap0 = assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
-        normalMap0.setWrap(WrapMode.Repeat);
-        Texture normalMap1 = assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
-        normalMap1.setWrap(WrapMode.Repeat);
-        Texture normalMap2 = assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
-        normalMap2.setWrap(WrapMode.Repeat);
-        matRock.setTexture("NormalMap", normalMap0);
-        matRock.setTexture("NormalMap_1", normalMap2);
-        matRock.setTexture("NormalMap_2", normalMap2);
-
-        //new RawHeightMap ()
-        AbstractHeightMap heightmap = null;
-        try {
-            //heightmap = new RawHeightMap("/home/dakk/Repositories/MyRepos/Sailgear/assets/Terrain/N41E063.hgt", 1000, RawHeightMap.FORMAT_16BITBE, false);
-            heightmap = new ImageBasedHeightMap(heightMapImage.getImage(), 0.25f);
-            heightmap.load();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        terrain = new TerrainQuad("terrain", 65, 513, heightmap.getHeightMap());
-        List<Camera> cameras = new ArrayList<Camera>();
-        cameras.add(getCamera());
-        terrain.setMaterial(matRock);
-        terrain.setLocalScale(new Vector3f(5, 5, 5));
-        terrain.setLocalTranslation(new Vector3f(0, -30, 0));
-        terrain.setLocked(false); // unlock it so we can edit the height
-
-        terrain.setShadowMode(ShadowMode.Receive);
-        scene.attachChild(terrain);
-
-    }
-    //This part is to emulate tides, slightly varrying the height of the water plane
 
 
     @Override
