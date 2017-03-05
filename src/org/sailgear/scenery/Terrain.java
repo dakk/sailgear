@@ -8,6 +8,7 @@ package org.sailgear.scenery;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.terrain.geomipmap.TerrainGrid;
@@ -38,12 +39,16 @@ public class Terrain extends Node {
     private static final Logger logger = Logger.getLogger(Terrain.class.getName());
     private TerrainGrid terrain;
     private TerrainTileLoader tileLoader;
+    private AssetManager assetManager;
+    private ViewPort viewPort;
     
-    public Terrain () {
+    public Terrain (AssetManager assetManager, ViewPort viewPort) {
         super ("SceneryTerrainNode");
+        this.assetManager = assetManager;
+        this.viewPort = viewPort;
     }
     
-    public void load (AssetManager assetManager, GameState gameState) {
+    public void load (GameState gameState) {
         this.tileLoader = new TerrainTileLoader (assetManager, gameState.position);
         this.terrain = new TerrainGrid ("terrainGrid", 1025, 2049, tileLoader);
         

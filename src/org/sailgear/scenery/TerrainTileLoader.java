@@ -119,9 +119,14 @@ public class TerrainTileLoader implements TerrainGridTileLoader {
                 jold += scalingFactor;
                 
                 newGeom [i * size + j] = nval;
+                
+                if (j == size - 1) {
+                    newGeom [i * size + j] = newGeom [i * size + j - 1];
+                }
+                
             }
             iold += scalingFactor;
-            System.console().printf("%d %f\n", i, iold);                
+           // System.console().printf("%d %f\n", i, iold);                
         }
         
         return newGeom;
@@ -134,14 +139,14 @@ public class TerrainTileLoader implements TerrainGridTileLoader {
         String n = "";
         
         if (lat > 0)
-            n += "N" + lat;
+            n += "N" + String.format("%02d", lat);
         else
-            n += "S" + Math.abs (lat);
+            n += "S" + String.format("%03d", Math.abs (lat));
         
         if (lon > 0)
-            n += "E00" + lon;
+            n += "E" + String.format("%03d", lon);
         else
-            n += "W00" + Math.abs (lon);
+            n += "W" + String.format("%03d", Math.abs (lon));
 
         return n;
     }
@@ -153,7 +158,7 @@ public class TerrainTileLoader implements TerrainGridTileLoader {
         this.mapModel.setCentre (center);
     }
     
-    int loaded = 0;
+    
     @Override
     public TerrainQuad getTerrainQuadAt(Vector3f location) {
         Position gpsCoordinates = mapModel.toPosition (location);
@@ -165,10 +170,8 @@ public class TerrainTileLoader implements TerrainGridTileLoader {
         }
         String tileName = getSRTMName (gpsCoordinates);
         
-        loaded += 1;
         logger.log(Level.INFO, "Loading TILE: ".concat(location.toString()).concat(gpsCoordinates.toStringDec()));
-        logger.log(Level.INFO, "Loading TILE: " + loaded + " " + tileName);
-        
+        logger.log(Level.INFO, "Loading TILE: " + tileName);
         
         Material matRock;
         
@@ -194,12 +197,9 @@ public class TerrainTileLoader implements TerrainGridTileLoader {
         AbstractHeightMap heightmap = null;
         try {
             float[] srtmData = loadSRTM (("/home/dakk/Repositories/MyRepos/Sailgear/assets/Terrain/"+tileName+".hgt"));
-            //float[] srtmData = loadSRTM (new String ("/home/dakk/Repositories/MyRepos/Sailgear/assets/Terrain/N39E009.hgt"));
             heightmap = new RawHeightMap (scaleGeometry(srtmData, 1201, 1024));
-            heightmap.smooth(24.0f, 5);
-            //heightmap = new RawHeightMap (srtmData);
+            //heightmap.smooth(24.0f, 5);
         } catch (Exception e) {
-            e.printStackTrace();
             float[] test = new float[1024*1024];
             Arrays.fill (test, -200.0f);
             heightmap = new RawHeightMap (test);

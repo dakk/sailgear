@@ -23,12 +23,34 @@
  */
 package org.sailgear.boat;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.asset.plugins.FileLocator;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.control.Control;
+import org.sailgear.boat.controls.FloatControl;
 
 /**
- *
+ * Create a boat instance controlled by the boatController
  * @author dakk
  */
 public class Boat extends Node {
+    private final Spatial model;
+    private final RigidBodyControl body;
     
+    public Boat (AssetManager assetManager, String boatName) {
+        super ("boat");
+        
+        model = assetManager.loadModel ("Boats/" + boatName + "/model.obj");
+        body = new RigidBodyControl(0);
+        model.addControl (body);
+        this.attachChild (model);
+    }   
+    
+    public RigidBodyControl getBody () {
+        return body;
+    }    
 }

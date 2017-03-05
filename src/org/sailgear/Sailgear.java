@@ -24,11 +24,19 @@
 package org.sailgear;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.plugins.FileLocator;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import java.util.logging.Logger;
+import org.sailgear.boat.Boat;
+import org.sailgear.boat.BoatFactory;
+import org.sailgear.boat.controls.FloatControl;
 import org.sailgear.scenery.Scenery;
 
 /**
@@ -41,6 +49,7 @@ public class Sailgear extends SimpleApplication {
     private Scenery scene;
     private GameState gameState;
     private static final Logger logger = Logger.getLogger(Sailgear.class.getName());
+    private BulletAppState bulletAppState;
     
     @Override
     public void simpleInitApp() {
@@ -55,6 +64,7 @@ public class Sailgear extends SimpleApplication {
         scene = new Scenery (assetManager, viewPort);
         scene.load (gameState);
         rootNode.attachChild (scene);
+        rootNode.addControl(scene);
 
         
         /* Camera setup */
@@ -62,12 +72,22 @@ public class Sailgear extends SimpleApplication {
         cam.setLocation(new Vector3f(-370.31592f, 182.04016f, 196.81192f));
         cam.setRotation(new Quaternion(0.015302252f, 0.9304095f, -0.039101653f, 0.3641086f));
         cam.setFrustumFar(40000);
+        
+        assetManager.registerLocator("/home/dakk/Repositories/MyRepos/Sailgear/assets", FileLocator.class);
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        
+        BoatFactory boatFactory = new BoatFactory (assetManager, bulletAppState, scene);
+        Boat b = boatFactory.addStaticBoat ("Default");
+        b.setLocalTranslation(new Vector3f(-370.31592f, 20.0f, 196.81192f));
+        scene.attachChild (b);
     }
     
-
-
+    public Spatial teapot;
+    
     @Override
     public void simpleUpdate(float tpf) {
-        super.simpleUpdate(tpf);
+        super.simpleUpdate(tpf);   
+        //scene.update (tpf);        
     }
 }
