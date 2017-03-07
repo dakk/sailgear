@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/org/sailgear"/>
+	<classpathentry kind="lib" path="build/assets.jar"/>
+	<classpathentry kind="lib" path="dist/lib/assets.jar"/>
+	<classpathentry kind="lib" path="dist/lib/j-ogg-all-1.0.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jinput-2.0.5.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jinput-platform-2.0.5-natives-linux.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jinput-platform-2.0.5-natives-osx.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jinput-platform-2.0.5-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-bullet-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-bullet-native-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-core-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-desktop-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-effects-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-jogg-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-lwjgl-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-networking-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-plugins-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jme3-terrain-3.1.0-stable.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jutils-1.0.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/lwjgl-2.9.3.jar"/>
+	<classpathentry kind="lib" path="dist/lib/lwjgl-platform-2.9.3-natives-linux.jar"/>
+	<classpathentry kind="lib" path="dist/lib/lwjgl-platform-2.9.3-natives-osx.jar"/>
+	<classpathentry kind="lib" path="dist/lib/lwjgl-platform-2.9.3-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dist/Sailgear.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
